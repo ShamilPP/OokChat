@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ook_chat/features/chat/widgets/error_message_widget.dart';
 import 'package:ook_chat/features/chat/widgets/message_widget.dart';
 import 'package:ook_chat/features/chat/widgets/typing_indicator.dart';
 import 'package:ook_chat/features/chat/widgets/welcome_message.dart';
@@ -14,9 +15,11 @@ class ChatScreen extends StatelessWidget {
 
   List<ChatMessage> messages = [];
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('AI Assistant'),
@@ -29,40 +32,63 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocConsumer<ChatBloc, ChatState>(
-        listener: (context, state) {
-          if (state is AddMessageSuccess) {
-            messages = state.messages;
-          }
-          if (state is AddMessageSuccess || state is AddMessageLoading) {
-            _scrollToBottom();
-          }
-        },
-        builder: (context, state) {
-          final isLoading = state is AddMessageLoading;
+      body: SafeArea(
+        child: BlocConsumer<ChatBloc, ChatState>(
+          listener: (context, state) {
+            if (state is AddMessageSuccess) {
+              messages = state.messages;
+            }
+            if (state is AddMessageSuccess || state is AddMessageLoading) {
+              _scrollToBottom();
+            }
+          },
+          builder: (context, state) {
+            final isLoading = state is AddMessageLoading;
+            final isError = state is AddMessageError;
 
-          return Column(
-            children: [
-              Expanded(
-                child: messages.isEmpty
-                    ? WelcomeMessage()
-                    : ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.all(16.0),
-                        itemCount: isLoading ? messages.length + 1 : messages.length,
-                        itemBuilder: (context, index) {
-                          if (isLoading && index == messages.length) {
-                            return TypingIndicator();
-                          } else {
-                            return MessageWidget(message: messages[index]);
-                          }
-                        },
+            return Column(
+              children: [
+                Expanded(
+                  child: messages.isEmpty
+                      ? WelcomeMessage()
+                      : ListView.builder(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.all(16.0),
+                          itemCount: isLoading || isError ? messages.length + 1 : messages.length,
+                          itemBuilder: (context, index) {
+                            if ((isLoading || isError) && index == messages.length) {
+                              if (isLoading) {
+                                return TypingIndicator();
+                              } else if (isError) {
+                                return ErrorMessageWidget(message: state.error);
+                              }
+                            } else {
+                              return MessageWidget(message: messages[index]);
+                            }
+                          },
+                        ),
+                ),
+                if (state is AddMessageError)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<ChatBloc>().add(RetryMessageEvent());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: theme.colorScheme.tertiary,
+                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        side: BorderSide(color: theme.colorScheme.tertiary, width: 1),
                       ),
-              ),
-              MessageComposer(),
-            ],
-          );
-        },
+                      child: Text("Retry", style: TextStyle(fontSize: 18)),
+                    ),
+                  )
+                else
+                  MessageComposer(controller: _messageController),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

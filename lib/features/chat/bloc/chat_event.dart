@@ -5,3 +5,5 @@ class AddMessageEvent extends ChatEvent {
 
   AddMessageEvent(this.message);
 }
+
+class RetryMessageEvent extends ChatEvent {}

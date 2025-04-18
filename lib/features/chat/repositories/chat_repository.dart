@@ -12,16 +12,54 @@ class ChatRepository {
 
   Future<Result<String>> geminiResponse(List<ChatMessage> messages) async {
     try {
-      final response = await dio.post(ApiEndpoint.geminiUrl, queryParameters: {'key': ApiConstants.geminiApiKey}, data: jsonEncode(makeGeminiBody(messages)));
+      final response = await dio.post(
+        ApiEndpoint.geminiUrl,
+        queryParameters: {'key': ApiConstants.geminiApiKey},
+        data: jsonEncode(makeGeminiBody(messages)),
+      );
 
       if (response.statusCode == 200) {
-        print(response);
-        return Result.success(response.data['candidates'][0]['content']['parts'][0]['text']);
+        final text = response.data['candidates']?[0]?['content']?['parts']?[0]?['text'];
+        if (text != null && text is String) {
+          return Result.success(text);
+        } else {
+          return Result.error("Invalid response format from Gemini API");
+        }
       } else {
-        throw Exception("Failed to fetch orders");
+        return Result.error("Gemini API error: ${response.statusCode} ${response.statusMessage}");
       }
+    }on DioException catch (dioError) {
+      final statusCode = dioError.response?.statusCode;
+      String errorMsg;
+
+      switch (statusCode) {
+        case 400:
+          errorMsg = "Bad Request: Check the API parameters or request body.";
+          break;
+        case 401:
+          errorMsg = "Unauthorized: Invalid API key or authentication failed.";
+          break;
+        case 403:
+          errorMsg = "Forbidden: You do not have access to this resource.";
+          break;
+        case 404:
+          errorMsg = "Not Found: The requested endpoint does not exist.";
+          break;
+        case 429:
+          errorMsg = "Too Many Requests: Rate limit exceeded.";
+          break;
+        case 500:
+          errorMsg = "Internal Server Error: Something went wrong on Gemini's side.";
+          break;
+        default:
+          errorMsg = "Network error: ${dioError.message}";
+      }
+
+      return Result.error(errorMsg);
+    } on FormatException catch (_) {
+      return Result.error("Invalid data format in Gemini response");
     } catch (e) {
-      throw Exception("Error fetching orders: $e");
+      return Result.error("Unexpected error: $e");
     }
   }
 

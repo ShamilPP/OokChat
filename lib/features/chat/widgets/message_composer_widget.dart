@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
+import '../bloc/chat_state.dart';
 
 class MessageComposer extends StatelessWidget {
-  MessageComposer({super.key});
+  final TextEditingController controller;
+  const MessageComposer({super.key,required this.controller});
 
-  final TextEditingController _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class MessageComposer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24.0),
                 ),
                 child: TextField(
-                  controller: _messageController,
+                  controller: controller,
                   decoration: const InputDecoration(
                     hintText: 'Type a message...',
                     border: InputBorder.none,
@@ -53,7 +54,7 @@ class MessageComposer extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.send),
               color: Theme.of(context).primaryColor,
-              onPressed: () => onSubmitted(context, _messageController.text),
+              onPressed: () => onSubmitted(context, controller.text),
             ),
           ],
         ),
@@ -63,9 +64,10 @@ class MessageComposer extends StatelessWidget {
 
   onSubmitted(BuildContext context, text) {
     final message = text.trim();
-    if (message.isNotEmpty) {
-      context.read<ChatBloc>().add(AddMessageEvent(message));
-      _messageController.clear();
+    final bloc = context.read<ChatBloc>();
+    if (message.isNotEmpty && bloc.state is! AddMessageLoading&& bloc.state is! AddMessageError) {
+      bloc.add(AddMessageEvent(message));
+      controller.clear();
     }
   }
 }

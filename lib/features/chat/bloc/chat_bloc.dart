@@ -11,6 +11,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc({required this.repository}) : super(ChatInitial()) {
     on<AddMessageEvent>(_onAddMessage);
+    on<RetryMessageEvent>(_onRetry);
   }
 
   void _onAddMessage(AddMessageEvent event, Emitter<ChatState> emit) async {
@@ -28,7 +29,29 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (result.isSuccess) {
         // Add AI response
         _messages.add(ChatMessage(
-          text: result.data??'',
+          text: result.data ?? '',
+          isUser: false,
+          timestamp: DateTime.now(),
+        ));
+
+        emit(AddMessageSuccess(List.from(_messages)));
+      } else {
+        emit(AddMessageError(result.message!));
+      }
+    } catch (e) {
+      emit(AddMessageError("Failed to add message: $e"));
+    }
+  }
+
+  void _onRetry(RetryMessageEvent event, Emitter<ChatState> emit) async {
+    try {
+      emit(AddMessageLoading());
+      // Simulate AI thinking
+      final result = await repository.geminiResponse(_messages);
+      if (result.isSuccess) {
+        // Add AI response
+        _messages.add(ChatMessage(
+          text: result.data ?? '',
           isUser: false,
           timestamp: DateTime.now(),
         ));

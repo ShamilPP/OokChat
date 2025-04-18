@@ -40,6 +40,7 @@ class AppTheme {
         surface: AppColors.surfaceLight,
         background: AppColors.backgroundLight,
         error: AppColors.errorColor,
+        tertiary: AppColors.textPrimaryLight,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -94,6 +95,7 @@ class AppTheme {
         surface: AppColors.surfaceDark,
         background: AppColors.backgroundDark,
         error: AppColors.errorColor,
+        tertiary: AppColors.textPrimaryDark,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
