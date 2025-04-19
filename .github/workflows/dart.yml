@@ -24,12 +24,15 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/ook_chat.apk
+
       - name: Upload release to GitHub
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
           name: Latest
           body: "Auto-generated release from main branch"
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: build/app/outputs/flutter-apk/ook_chat.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
