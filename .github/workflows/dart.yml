@@ -21,18 +21,36 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # Decode keystore from GitHub secrets
+      - name: Decode Keystore from Secret
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/my-release-key.keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
+      # Create key.properties file
+      - name: Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=my-release-key.keystore" >> android/key.properties
+
+      # Build the release APK
       - name: Build APK
         run: flutter build apk --release
 
+      # Rename APK file
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/ook_chat.apk
 
+      # Upload APK to GitHub Releases
       - name: Upload release to GitHub
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
           name: Latest
-          body: "Auto-generated release from main branch"
+          body: "Auto-generated release from master branch"
           files: build/app/outputs/flutter-apk/ook_chat.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
