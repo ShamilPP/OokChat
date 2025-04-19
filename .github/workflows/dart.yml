@@ -21,26 +21,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Decode keystore from GitHub secrets
-      - name: Decode Keystore from Secret
-        run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/my-release-key.keystore
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-
-      # Create key.properties file
-      - name: Create key.properties
-        run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=my-release-key.keystore" >> android/key.properties
-
       # Build the release APK
       - name: Build APK
         run: flutter build apk --release
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       # Rename APK file
       - name: Rename APK
