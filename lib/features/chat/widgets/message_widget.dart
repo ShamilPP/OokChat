@@ -35,7 +35,7 @@ class MessageWidget extends StatelessWidget {
                 ],
               ),
               child: Text(
-                message.text,
+                message.text.trimRight(),
                 style: TextStyle(
                   color: message.isUser ? Colors.white : null,
                   fontSize: 16,
