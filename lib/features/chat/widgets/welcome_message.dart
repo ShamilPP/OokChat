@@ -39,7 +39,7 @@ class WelcomeMessage extends StatelessWidget {
       width: 120,
       height: 120,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(

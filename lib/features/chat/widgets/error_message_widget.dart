@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
 
-import '../model/chat_message_model.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
   final String message;
@@ -22,7 +21,7 @@ class ErrorMessageWidget extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(

@@ -60,6 +60,7 @@ class ChatScreen extends StatelessWidget {
                             } else {
                               return MessageWidget(message: messages[index]);
                             }
+                            return null;
                           },
                         ),
                 ),
