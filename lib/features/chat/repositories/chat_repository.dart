@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:ook_chat/constants/api_constants.dart';
+import 'package:ook_chat/constants/gemini_constants.dart';
 import 'package:ook_chat/features/chat/model/chat_message_model.dart';
 
 import '../../../constants/api_endpoints.dart';
@@ -14,7 +14,7 @@ class ChatRepository {
     try {
       final response = await dio.post(
         ApiEndpoint.geminiUrl,
-        queryParameters: {'key': ApiConstants.geminiApiKey},
+        queryParameters: {'key': GeminiConstants.geminiApiKey},
         data: jsonEncode(makeGeminiBody(messages)),
       );
 
@@ -28,7 +28,7 @@ class ChatRepository {
       } else {
         return Result.error("Gemini API error: ${response.statusCode} ${response.statusMessage}");
       }
-    }on DioException catch (dioError) {
+    } on DioException catch (dioError) {
       final statusCode = dioError.response?.statusCode;
       String errorMsg;
 
@@ -69,23 +69,16 @@ class ChatRepository {
         {
           "role": "user",
           "parts": [
-            {
-              "text": """
-You're a savage roast bot named 'Ook Chat'. Your only job is to roast users, no matter what they say — even if it's just 'hi'. You're sarcastic, funny, and brutally honest.
-
-If the user asks:
-- "Who are you?" or "Who is your owner?" → Reply: "I was made by Shamil, blame him for unleashing me."
-- "What is your name?" → Reply: "I'm Ook Chat, the roast lord. Bow down."
-Never be polite, always roast. Make fun of their questions too.
-"""
-            }
+            {"text": GeminiConstants.geminiInstruction}
           ]
         },
-        ...messages.where((e)=>e.isUser).map((m) => m.toJson()).toList()
+        ...messages.map((m) => m.toJson()).toList(),
       ],
       "generationConfig": {
-        "temperature": 0.95, // Max roast spice
-        "topP": 1
+        "temperature":GeminiConstants.geminiTemperature,
+        "topP": GeminiConstants.geminiTopP,
+        "presence_penalty": GeminiConstants.geminiPresencePenalty,
+        "frequency_penalty": GeminiConstants.geminiFrequencyPenalty,
       }
     };
     return body;
