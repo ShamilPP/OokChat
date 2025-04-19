@@ -8,6 +8,7 @@ import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
 import '../model/chat_message_model.dart';
+import '../widgets/home_drawer.dart';
 import '../widgets/message_composer_widget.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -22,16 +23,10 @@ class ChatScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AI Assistant'),
+        title: const Text('Ook Chat'),
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            // onPressed: () => context.read<ChatBloc>().add(ClearChatEvent()),
-            onPressed: () {},
-          ),
-        ],
       ),
+      drawer: HomeDrawer(),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
           listener: (context, state) {
