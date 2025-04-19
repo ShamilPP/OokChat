@@ -41,18 +41,7 @@ class _DownloadUpdateWidgetState extends State<DownloadUpdateWidget> {
 
   void download() async {
     // Ask for permission
-    final storageStatus = await Permission.storage.request();
-    final installPerStatus = await Permission.requestInstallPackages.request();
-    if (!storageStatus.isGranted) {
-      Navigator.pop(context);
-      _showError(context, "Storage permission denied.");
-      return;
-    }
-    if (!installPerStatus.isGranted) {
-      Navigator.pop(context);
-      _showError(context, "Install permission denied.");
-      return;
-    }
+    await checkPermissions();
 
     try {
       final dir = await getExternalStorageDirectory();
@@ -94,5 +83,15 @@ class _DownloadUpdateWidgetState extends State<DownloadUpdateWidget> {
         ],
       ),
     );
+  }
+
+  Future<void> checkPermissions() async {
+    final installStatus = await Permission.requestInstallPackages.request();
+
+    if (!installStatus.isGranted) {
+      Navigator.pop(context);
+      _showError(context, "Install permission denied.");
+      return;
+    }
   }
 }
