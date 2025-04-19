@@ -39,6 +39,8 @@ jobs:
       # Build the release APK
       - name: Build APK
         run: flutter build apk --release
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       # Rename APK file
       - name: Rename APK

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'bloc/bloc_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'di/locator.dart';
 import 'features/chat/screens/chat_screen.dart';
 
-void main() {
+void main() async {
   setupLocator();
+  await dotenv.load(); // Load the environment variable
   runApp(const MyApp());
 }
 

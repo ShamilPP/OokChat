@@ -4,23 +4,15 @@
 *.pyc
 *.swp
 .DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+*.tmp
 
-# IntelliJ related
+# JetBrains / IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
+# VS Code related (Optional, you can uncomment if you want to include VS Code settings)
 #.vscode/
 
 # Flutter/Dart/Pub related
@@ -33,14 +25,50 @@ migrate_working_dir/
 .pub/
 /build/
 
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
+# Android related
+# Ignore build artifacts
 /android/app/debug
 /android/app/.cxx
 /android/app/profile
 /android/app/release
+
+# iOS related
+ios/Flutter/.generated/
+
+# macOS related
+**/macos/Flutter/.generated/
+
+# Web related
+**/web/.dart_tool/
+
+# Flutter build artifacts
+*.dart_tool/
+
+# Obfuscation related (if using obfuscation)
+app.*.map.json
+
+# Symbolication related (for debugging symbols)
+app.*.symbols
+
+# Environment files
+.env
+
+# Firebase related
+google-services.json
+GoogleService-Info.plist
+
+# Secrets and API keys
+*.key
+*.pem
+
+# Windows related
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Operating system related
+*.bak
+*.swo
+
+# IDE related (e.g., Visual Studio, Eclipse, etc.)
+.vscode/
