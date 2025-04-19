@@ -39,22 +39,6 @@ class _DownloadUpdateWidgetState extends State<DownloadUpdateWidget> {
     );
   }
 
-  void _showError(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Error"),
-        content: Text(message),
-        actions: [
-          TextButton(
-            child: const Text("OK"),
-            onPressed: () => Navigator.pop(context),
-          )
-        ],
-      ),
-    );
-  }
-
   void download() async {
     // Ask for permission
     final storageStatus = await Permission.storage.request();
@@ -94,5 +78,21 @@ class _DownloadUpdateWidgetState extends State<DownloadUpdateWidget> {
       Navigator.pop(context); // Close dialog on error
       _showError(context, "Download failed: $e");
     }
+  }
+
+  void _showError(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Error"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text("OK"),
+            onPressed: () => Navigator.pop(ctx),
+          )
+        ],
+      ),
+    );
   }
 }
