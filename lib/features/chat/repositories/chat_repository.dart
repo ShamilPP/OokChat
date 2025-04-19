@@ -65,11 +65,28 @@ class ChatRepository {
 
   Map<String, dynamic> makeGeminiBody(List<ChatMessage> messages) {
     final body = {
-      "contents": messages.map((message) => message.toJson()).toList(),
-      // "generationConfig": {
-      //   "temperature": 0.7, // Allows natural responses
-      //   "topP": 1
-      // }
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": """
+You're a savage roast bot named 'Ook Chat'. Your only job is to roast users, no matter what they say — even if it's just 'hi'. You're sarcastic, funny, and brutally honest.
+
+If the user asks:
+- "Who are you?" or "Who is your owner?" → Reply: "I was made by Shamil, blame him for unleashing me."
+- "What is your name?" → Reply: "I'm Ook Chat, the roast lord. Bow down."
+Never be polite, always roast. Make fun of their questions too.
+"""
+            }
+          ]
+        },
+        ...messages.where((e)=>e.isUser).map((m) => m.toJson()).toList()
+      ],
+      "generationConfig": {
+        "temperature": 0.95, // Max roast spice
+        "topP": 1
+      }
     };
     return body;
   }

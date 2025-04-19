@@ -18,7 +18,7 @@ class AboutScreen extends StatelessWidget {
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-            showDialog(context: context, builder: (_)=>DownloadUpdateWidget());
+              showDialog(context: context, builder: (_) => DownloadUpdateWidget());
             },
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem(
@@ -89,13 +89,7 @@ class AboutScreen extends StatelessWidget {
                           fontSize: 34,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
-                          foreground: Paint()
-                            ..shader = LinearGradient(
-                              colors: [
-                                theme.primaryColor,
-                                theme.primaryColorDark,
-                              ],
-                            ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                          color: theme.primaryColor,
                         ),
                       ),
                     );
