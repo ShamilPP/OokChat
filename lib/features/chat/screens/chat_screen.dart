@@ -4,6 +4,7 @@ import 'package:ook_chat/features/chat/widgets/error_message_widget.dart';
 import 'package:ook_chat/features/chat/widgets/message_widget.dart';
 import 'package:ook_chat/features/chat/widgets/typing_indicator.dart';
 import 'package:ook_chat/features/chat/widgets/welcome_message.dart';
+
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
@@ -22,10 +23,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ook Chat'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Ook Chat')),
       drawer: HomeDrawer(),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(

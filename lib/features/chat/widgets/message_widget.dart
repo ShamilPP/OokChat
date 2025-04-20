@@ -22,9 +22,7 @@ class MessageWidget extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: message.isUser
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: message.isUser ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Light Theme Colors
-  static const Color primaryLight = Color(0xFF4361EE);  // Vibrant blue
+  static const Color primaryLight = Color(0xFF4361EE); // Vibrant blue
   static const Color secondaryLight = Color(0xFF3F37C9); // Deep blue
   static const Color backgroundLight = Color(0xFFF8F9FA); // Very light gray
   static const Color surfaceLight = Color(0xFFFFFFFF); // White
@@ -14,7 +14,7 @@ class AppColors {
   static const Color bubbleTextAILight = Color(0xFF212529); // Dark gray
 
   // Dark Theme Colors
-  static const Color primaryDark = Color(0xFF4895EF);  // Bright blue
+  static const Color primaryDark = Color(0xFF4895EF); // Bright blue
   static const Color secondaryDark = Color(0xFF4CC9F0); // Cyan
   static const Color backgroundDark = Color(0xFF121212); // True black
   static const Color surfaceDark = Color(0xFF1E1E1E); // Dark gray

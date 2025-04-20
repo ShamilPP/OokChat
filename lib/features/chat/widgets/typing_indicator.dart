@@ -68,8 +68,8 @@ class _TypingIndicatorState extends State<TypingIndicator> with SingleTickerProv
           width: 8.0 + 4.0 * (sin((value * 3.14 * 2) + index * 1.0) + 1) / 2,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(
-              0.5 + 0.5 * (sin((value * 3.14 * 2) + index * 1.0) + 1) / 2,
-            ),
+                  0.5 + 0.5 * (sin((value * 3.14 * 2) + index * 1.0) + 1) / 2,
+                ),
             shape: BoxShape.circle,
           ),
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ook_chat/features/preminum/widgets/preminum_dialog.dart';
 
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
@@ -30,7 +31,9 @@ class MessageComposer extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.attach_file),
               color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(context: context, builder: (_) => GetPlusPremiumDialog());
+              },
             ),
             Expanded(
               child: Container(

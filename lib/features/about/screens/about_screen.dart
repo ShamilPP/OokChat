@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ook_chat/constants/app_info.dart';
 import 'package:ook_chat/features/about/widgets/download_update_widget.dart';
+
 import '../../../constants/app_icons.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,16 +32,17 @@ class AboutScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              theme.scaffoldBackgroundColor,
-              theme.primaryColor.withOpacity(0.05),
-            ],
-          ),
-        ),
+        color: theme.scaffoldBackgroundColor,
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: [
+        //       theme.scaffoldBackgroundColor,
+        //       theme.primaryColor.withOpacity(0.05),
+        //     ],
+        //   ),
+        // ),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -143,16 +146,9 @@ class AboutScreen extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: colorScheme.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: theme.primaryColor.withOpacity(0.1),
-                                spreadRadius: 2,
-                                blurRadius: 15,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
+                            border: Border.all(color: colorScheme.primary.withOpacity(0.3), width: 1),
                           ),
                           child: Column(
                             children: [
@@ -162,7 +158,7 @@ class AboutScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.grey.shade800,
+                                  color: colorScheme.primary,
                                   height: 1.6,
                                   letterSpacing: 0.3,
                                 ),

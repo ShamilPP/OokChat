@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
 
-
 class ErrorMessageWidget extends StatelessWidget {
   final String message;
 

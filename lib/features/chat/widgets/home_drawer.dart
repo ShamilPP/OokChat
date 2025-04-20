@@ -49,16 +49,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           // Drawer Header
           Container(
             padding: const EdgeInsets.fromLTRB(16, 50, 16, 20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorScheme.primary,
-                  colorScheme.primary.withOpacity(0.7),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+            color: colorScheme.primary.withOpacity(.9),
             child: Row(
               children: [
                 ProfileAvatar(isUser: true, height: 50, width: 50, size: 25),

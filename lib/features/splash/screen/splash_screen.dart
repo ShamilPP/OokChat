@@ -1,7 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ook_chat/constants/app_icons.dart';
-import 'package:ook_chat/core/theme/app_colors.dart';
-import 'dart:async';
 
 import '../../chat/screens/chat_screen.dart';
 

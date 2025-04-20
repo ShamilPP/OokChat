@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ook_chat/constants/gemini_constants.dart';
 import 'package:ook_chat/features/chat/model/chat_message_model.dart';
+
 import '../../../constants/api_endpoints.dart';
 import '../../../model/network/result.dart';
 
@@ -22,7 +23,6 @@ class ChatRepository {
         return Result.success(text);
       }
       return Result.error("Invalid response format from Gemini API");
-
     } on DioException catch (dioError) {
       return Result.error(_getDioErrorMessage(dioError));
     } on FormatException {
@@ -60,7 +60,6 @@ class ChatRepository {
         return Result.success(text);
       }
       return Result.error("Invalid response format from Gemini API");
-
     } on DioException catch (dioError) {
       return Result.error(_getDioErrorMessage(dioError));
     } on FormatException {
@@ -75,7 +74,9 @@ class ChatRepository {
       "contents": [
         {
           "role": "user",
-          "parts": [{"text": GeminiConstants.geminiInstruction}]
+          "parts": [
+            {"text": GeminiConstants.geminiInstruction}
+          ]
         },
         ...messages.map((m) => m.toJson())
       ],

@@ -1,6 +1,6 @@
 import 'package:ook_chat/features/chat/model/chat_message_model.dart';
 
-class Chat{
+class Chat {
   final String title;
   final List<ChatMessage> messages;
 
