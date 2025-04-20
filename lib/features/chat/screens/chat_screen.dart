@@ -5,9 +5,9 @@ import 'package:ook_chat/features/chat/widgets/message_widget.dart';
 import 'package:ook_chat/features/chat/widgets/typing_indicator.dart';
 import 'package:ook_chat/features/chat/widgets/welcome_message.dart';
 
-import '../bloc/chat_bloc.dart';
-import '../bloc/chat_event.dart';
-import '../bloc/chat_state.dart';
+import '../bloc/chat/chat_bloc.dart';
+import '../bloc/chat/chat_event.dart';
+import '../bloc/chat/chat_state.dart';
 import '../model/chat_message_model.dart';
 import '../widgets/home_drawer.dart';
 import '../widgets/message_composer_widget.dart';

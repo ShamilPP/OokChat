@@ -48,7 +48,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-          
+
               // Title
               Text(
                 "Unlock Premium Features",
@@ -58,7 +58,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-          
+
               // Description
               Text(
                 "This exclusive feature is only available for Ook Plus members.",
@@ -66,7 +66,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-          
+
               // Price highlight
               Container(
                 width: double.infinity,
@@ -96,7 +96,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          "₹1",
+                          "₹2",
                           style: textTheme.headlineMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: primaryColor,
@@ -111,7 +111,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                   ],
                 ),
               ),
-          
+
               // Benefits list
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -126,7 +126,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-          
+
               // Buttons
               Row(
                 children: [
@@ -176,7 +176,7 @@ class GetPlusPremiumDialog extends StatelessWidget {
                   ),
                 ],
               ),
-          
+
               // Terms text
               Padding(
                 padding: const EdgeInsets.only(top: 16),

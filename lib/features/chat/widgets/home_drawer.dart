@@ -4,12 +4,15 @@ import 'package:ook_chat/constants/app_info.dart';
 import 'package:ook_chat/features/about/screens/about_screen.dart';
 import 'package:ook_chat/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:ook_chat/features/auth/bloc/auth/auth_state.dart';
-import 'package:ook_chat/features/chat/bloc/chat_bloc.dart';
+import 'package:ook_chat/features/chat/bloc/chat/chat_bloc.dart';
+import 'package:ook_chat/features/chat/bloc/chat/chat_state.dart';
+import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
+import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_state.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
 import 'package:ook_chat/features/settings/screens/settings_screen.dart';
 
 import '../../../model/user.dart';
-import '../bloc/chat_event.dart';
+import '../bloc/chat/chat_event.dart';
 
 class HomeDrawer extends StatefulWidget {
   HomeDrawer({super.key});
@@ -19,21 +22,6 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
-  final List<String> chatItems = [
-    "Ego Slayer",
-    "Confidence Crusher",
-    "Roast Session",
-    "Verbal Punches",
-    "Burn Central",
-    "Trash Talk Time",
-    "Savage Replies",
-    "No Mercy Mode",
-    "Tear Factory",
-    "Emotional Damage Bot",
-  ];
-
-  int activeChatIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -75,7 +63,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         ),
                       ),
                       Text(
-                       "Ook chat member",
+                        "Ook chat member",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white.withOpacity(0.9),
@@ -132,56 +120,70 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
           // Chat List
           Expanded(
-            child: ListView.builder(
-              itemCount: chatItems.length,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              itemBuilder: (context, index) {
-                final chatItem = chatItems[index];
-                final isActive = index == activeChatIndex;
+            child: BlocBuilder<ChatListBloc, ChatListState>(builder: (ctx, chatListState) {
+              return BlocBuilder<ChatBloc, ChatState>(builder: (ctx, chatState) {
+                final selectedChatId = context.read<ChatBloc>().selectedChatId;
+                if (chatListState is ChatListLoading) return Center(child: CircularProgressIndicator());
+                if (chatListState is ChatListError) return Center(child: Text(chatListState.message));
+                if (chatListState is ChatListLoaded) {
+                  if (chatListState.chats.isEmpty) return Center(child: Text("No recent chats"));
+                  return ListView.builder(
+                    itemCount: chatListState.chats.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    itemBuilder: (context, index) {
+                      final chatItem = chatListState.chats[index];
+                      final isActive = chatItem.id == selectedChatId;
 
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: isActive ? colorScheme.primary.withOpacity(0.1) : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                    border: isActive ? Border.all(color: colorScheme.primary.withOpacity(0.3), width: 1) : null,
-                  ),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                    leading: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: isActive ? colorScheme.primary : colorScheme.primary.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        isActive ? Icons.chat_outlined : Icons.chat_outlined,
-                        color: isActive ? Colors.white : colorScheme.primary,
-                        size: 18,
-                      ),
-                    ),
-                    title: Text(
-                      chatItem,
-                      style: TextStyle(
-                        fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                        fontSize: 15,
-                        color: isActive ? colorScheme.primary : theme.textTheme.bodyLarge?.color,
-                      ),
-                    ),
-                    onTap: () async {
-                      setState(() {
-                        activeChatIndex = index;
-                      });
-                      // Wait for the drawer to close
-                      Future.delayed(Duration(milliseconds: 100)).then((value) {
-                        Navigator.pop(context);
-                      });
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: isActive ? colorScheme.primary.withOpacity(0.1) : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                          border: isActive ? Border.all(color: colorScheme.primary.withOpacity(0.3), width: 1) : null,
+                        ),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                          leading: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isActive ? colorScheme.primary : colorScheme.primary.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              isActive ? Icons.chat_outlined : Icons.chat_outlined,
+                              color: isActive ? Colors.white : colorScheme.primary,
+                              size: 18,
+                            ),
+                          ),
+                          title: Text(
+                            chatItem.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                              fontSize: 15,
+                              color: isActive ? colorScheme.primary : theme.textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          onTap: () async {
+                            setState(() {
+                              context.read<ChatBloc>().add(LoadChatMessagesEvent(userId: user!.id!, selectedChatId: chatItem.id!));
+                            });
+                            // Wait for the drawer to close
+                            Future.delayed(Duration(milliseconds: 100)).then((value) {
+                              Navigator.pop(context);
+                            });
+                          },
+                        ),
+                      );
                     },
-                  ),
-                );
-              },
-            ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              });
+            }),
           ),
 
           const Divider(thickness: 1),

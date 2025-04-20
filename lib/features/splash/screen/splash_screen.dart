@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/constants/app_icons.dart';
 import 'package:ook_chat/features/auth/screens/auth_screen.dart';
+import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
+import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_event.dart';
 
 import '../../auth/bloc/auth/auth_bloc.dart';
 import '../../auth/bloc/auth/auth_event.dart';
@@ -14,6 +16,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Trigger authentication check when SplashScreen is displayed
+    // LocalRepository().saveUserId("QWN344IuqCtAYlKq2t9p");
     context.read<AuthBloc>().add(AuthCheckRequested());
 
     return Scaffold(
@@ -22,6 +25,9 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             // Navigate to chat screen if the user is authenticated
+
+            context.read<ChatListBloc>().add(LoadChatList(userId: state.user.id!));
+
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => ChatScreen()),

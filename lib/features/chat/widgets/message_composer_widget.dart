@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/features/preminum/widgets/preminum_dialog.dart';
 
-import '../bloc/chat_bloc.dart';
-import '../bloc/chat_event.dart';
-import '../bloc/chat_state.dart';
+import '../../../model/user.dart';
+import '../../auth/bloc/auth/auth_bloc.dart';
+import '../../auth/bloc/auth/auth_state.dart';
+import '../bloc/chat/chat_bloc.dart';
+import '../bloc/chat/chat_event.dart';
+import '../bloc/chat/chat_state.dart';
 
 class MessageComposer extends StatelessWidget {
   final TextEditingController controller;
@@ -13,6 +16,10 @@ class MessageComposer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user;
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) user = authState.user;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -51,7 +58,7 @@ class MessageComposer extends StatelessWidget {
                   ),
                   minLines: 1,
                   maxLines: 5,
-                  onSubmitted: (text) => onSubmitted(context, text),
+                  onSubmitted: (text) => onSubmitted(context, text, user?.id),
                 ),
               ),
             ),
@@ -59,7 +66,7 @@ class MessageComposer extends StatelessWidget {
               return IconButton(
                 icon: const Icon(Icons.send),
                 color: Theme.of(context).primaryColor,
-                onPressed: state is! AddMessageLoading && state is! AddMessageError ? () => onSubmitted(context, controller.text) : null,
+                onPressed: state is! AddMessageLoading && state is! AddMessageError ? () => onSubmitted(context, controller.text, user?.id) : null,
               );
             }),
           ],
@@ -68,11 +75,11 @@ class MessageComposer extends StatelessWidget {
     );
   }
 
-  onSubmitted(BuildContext context, text) {
+  onSubmitted(BuildContext context, String text, String? id) {
     final message = text.trim();
     final bloc = context.read<ChatBloc>();
     if (message.isNotEmpty && bloc.state is! AddMessageLoading && bloc.state is! AddMessageError) {
-      bloc.add(AddMessageEvent(message));
+      bloc.add(AddMessageEvent(context: context, message: message, userId: id ?? ''));
       controller.clear();
     }
   }

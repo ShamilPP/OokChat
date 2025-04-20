@@ -23,23 +23,22 @@ class LoginScreen extends StatelessWidget {
               showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) =>
-                      Center(
+                  builder: (_) => Center(
                           child: Container(
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 15, spreadRadius: 5)]),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
-                                ),
-                                SizedBox(height: 15),
-                                Text("Logging in...", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black87))
-                              ],
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 15, spreadRadius: 5)]),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
                             ),
-                          )));
+                            SizedBox(height: 15),
+                            Text("Logging in...", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black87))
+                          ],
+                        ),
+                      )));
             } else if (state is GoogleAuthError) {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(

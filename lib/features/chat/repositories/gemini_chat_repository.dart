@@ -7,7 +7,7 @@ import 'package:ook_chat/features/chat/model/chat_message_model.dart';
 import '../../../constants/api_endpoints.dart';
 import '../../../model/network/result.dart';
 
-class ChatRepository {
+class GeminiChatRepository {
   final Dio _dio = Dio();
 
   Future<Result<String>> geminiResponse(List<ChatMessage> messages) async {
@@ -32,7 +32,7 @@ class ChatRepository {
     }
   }
 
-  Future<Result<String>> generateRoastTitle() async {
+  Future<Result<String>> generateRoastTitle(ChatMessage message) async {
     try {
       final response = await _dio.post(
         ApiEndpoint.geminiUrl,
@@ -44,7 +44,8 @@ class ChatRepository {
               "parts": [
                 {"text": GeminiConstants.geminiRoastTitleInstruction},
               ]
-            }
+            },
+            message.toGeminiJson(),
           ],
           "generationConfig": {
             "temperature": GeminiConstants.geminiTemperature,
@@ -78,7 +79,7 @@ class ChatRepository {
             {"text": GeminiConstants.geminiInstruction}
           ]
         },
-        ...messages.map((m) => m.toJson())
+        ...messages.map((m) => m.toGeminiJson())
       ],
       "generationConfig": {
         "temperature": GeminiConstants.geminiTemperature,
