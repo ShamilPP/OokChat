@@ -1,36 +1,48 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/constants/app_icons.dart';
+import 'package:ook_chat/features/auth/screens/auth_screen.dart';
 
+import '../../auth/bloc/auth/auth_bloc.dart';
+import '../../auth/bloc/auth/auth_event.dart';
+import '../../auth/bloc/auth/auth_state.dart';
 import '../../chat/screens/chat_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    Future.delayed(Duration(milliseconds: 500)).then((result) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatScreen()));
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Trigger authentication check when SplashScreen is displayed
+    context.read<AuthBloc>().add(AuthCheckRequested());
+
     return Scaffold(
-      body: Container(
-        color: Colors.white,
+      backgroundColor: Colors.white,
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          print(state);
+          if (state is AuthAuthenticated) {
+            // Navigate to chat screen if the user is authenticated
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ChatScreen()),
+            );
+          } else if (state is AuthUnauthenticated) {
+            // Navigate to login/signup screen if the user is unauthenticated
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()), // Replace with your Login/Signup Screen
+            );
+          }
+        },
         child: Center(
-          child: SizedBox(
-            height: 200,
-            width: 200,
-            child: Image.asset(AppIcons.appIcon),
+          child: Hero(
+            tag: 'app-icon',
+            child: SizedBox(
+              height: 200,
+              width: 200,
+              child: Image.asset(AppIcons.appIcon),
+            ),
           ),
         ),
       ),
