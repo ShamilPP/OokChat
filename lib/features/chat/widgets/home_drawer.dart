@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/constants/app_info.dart';
 import 'package:ook_chat/features/about/screens/about_screen.dart';
+import 'package:ook_chat/features/chat/bloc/chat_bloc.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
+
+import '../bloc/chat_event.dart';
 
 class HomeDrawer extends StatefulWidget {
   HomeDrawer({super.key});
@@ -92,14 +96,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton.icon(
               onPressed: () {
-                // TODO: Start new chat
+                context.read<ChatBloc>().add(NewChatEvent());
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.add),
               label: const Text('New Chat', style: TextStyle(fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(54),
                 backgroundColor: colorScheme.primary,
-                foregroundColor:Colors.white,
+                foregroundColor: Colors.white,
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -136,24 +141,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 final isActive = index == activeChatIndex;
 
                 return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: isActive ? colorScheme.primary.withOpacity(0.1) : Colors.transparent,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                     border: isActive ? Border.all(color: colorScheme.primary.withOpacity(0.3), width: 1) : null,
                   ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                     leading: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         color: isActive ? colorScheme.primary : colorScheme.primary.withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        isActive ? Icons.chat : Icons.chat_outlined,
+                        isActive ? Icons.chat_outlined : Icons.chat_outlined,
                         color: isActive ? Colors.white : colorScheme.primary,
-                        size: 22,
+                        size: 18,
                       ),
                     ),
                     title: Text(
@@ -164,16 +170,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         color: isActive ? colorScheme.primary : theme.textTheme.bodyLarge?.color,
                       ),
                     ),
-                    // trailing: isActive
-                    //     ? Icon(
-                    //         Icons.check_circle,
-                    //         color: colorScheme.primary,
-                    //         size: 18,
-                    //       )
-                    //     : null,
-                    onTap: () {
+                    onTap: () async {
                       setState(() {
-                        activeChatIndex=index;
+                        activeChatIndex = index;
+                      });
+                      // Wait for the drawer to close
+                      Future.delayed(Duration(milliseconds: 100)).then((value) {
+                        Navigator.pop(context);
                       });
                     },
                   ),
@@ -194,8 +197,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   context,
                   icon: Icons.settings_outlined,
                   title: 'Settings',
-                  onTap: () {
-                    // TODO: Navigate to settings screen
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => AboutScreen()));
                   },
                 ),
 
@@ -205,6 +209,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   icon: Icons.info_outline,
                   title: 'About',
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(context, MaterialPageRoute(builder: (_) => AboutScreen()));
                   },
                 ),

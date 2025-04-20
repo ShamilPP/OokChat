@@ -30,7 +30,9 @@ class ChatScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
           listener: (context, state) {
-            if (state is AddMessageSuccess) {
+            if (state is ChatInitial) {
+              messages = [];
+            } else if (state is AddMessageSuccess) {
               messages = state.messages;
             }
             if (state is AddMessageSuccess || state is AddMessageLoading) {

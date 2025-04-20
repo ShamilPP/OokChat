@@ -7,3 +7,5 @@ class AddMessageEvent extends ChatEvent {
 }
 
 class RetryMessageEvent extends ChatEvent {}
+
+class NewChatEvent extends ChatEvent {}

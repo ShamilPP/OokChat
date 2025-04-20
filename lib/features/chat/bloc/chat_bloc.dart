@@ -12,6 +12,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc({required this.repository}) : super(ChatInitial()) {
     on<AddMessageEvent>(_onAddMessage);
     on<RetryMessageEvent>(_onRetry);
+    on<NewChatEvent>(_onNewChat);
   }
 
   void _onAddMessage(AddMessageEvent event, Emitter<ChatState> emit) async {
@@ -63,5 +64,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     } catch (e) {
       emit(AddMessageError("Failed to add message: $e"));
     }
+  }
+
+  void _onNewChat(NewChatEvent event, Emitter<ChatState> emit) async {
+    _messages.clear();
+    emit(ChatInitial());
   }
 }

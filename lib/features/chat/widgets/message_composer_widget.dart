@@ -7,8 +7,8 @@ import '../bloc/chat_state.dart';
 
 class MessageComposer extends StatelessWidget {
   final TextEditingController controller;
-  const MessageComposer({super.key,required this.controller});
 
+  const MessageComposer({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +51,13 @@ class MessageComposer extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.send),
-              color: Theme.of(context).primaryColor,
-              onPressed: () => onSubmitted(context, controller.text),
-            ),
+            BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
+              return IconButton(
+                icon: const Icon(Icons.send),
+                color: Theme.of(context).primaryColor,
+                onPressed: state is! AddMessageLoading && state is! AddMessageError ? () => onSubmitted(context, controller.text) : null,
+              );
+            }),
           ],
         ),
       ),
@@ -65,7 +67,7 @@ class MessageComposer extends StatelessWidget {
   onSubmitted(BuildContext context, text) {
     final message = text.trim();
     final bloc = context.read<ChatBloc>();
-    if (message.isNotEmpty && bloc.state is! AddMessageLoading&& bloc.state is! AddMessageError) {
+    if (message.isNotEmpty && bloc.state is! AddMessageLoading && bloc.state is! AddMessageError) {
       bloc.add(AddMessageEvent(message));
       controller.clear();
     }
