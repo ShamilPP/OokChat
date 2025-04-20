@@ -108,7 +108,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: (ThemeMode? value) {
                 if (value != null) {
                   setState(() {
-                    _themeMode = value;
+                    _themeMode = mode;
+                    context.read<ThemeCubit>().setTheme(mode);
                   });
                 }
               },
@@ -241,11 +242,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               value: type,
               groupValue: _messageType,
               onChanged: (String? value) {
-                if (value != null) {
-                  setState(() {
-                    _messageType = value;
-                  });
-                }
+                showPremiumDialog();
               },
             ),
           ],
@@ -309,9 +306,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               groupValue: _messageLength,
               onChanged: (String? value) {
                 if (value != null) {
-                  setState(() {
-                    _messageLength = value;
-                  });
+                  showPremiumDialog();
                 }
               },
             ),
