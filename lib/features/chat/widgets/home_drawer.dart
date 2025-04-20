@@ -6,6 +6,7 @@ import 'package:ook_chat/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:ook_chat/features/auth/bloc/auth/auth_state.dart';
 import 'package:ook_chat/features/chat/bloc/chat_bloc.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
+import 'package:ook_chat/features/settings/screens/settings_screen.dart';
 
 import '../../../model/user.dart';
 import '../bloc/chat_event.dart';
@@ -197,7 +198,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   title: 'Settings',
                   onTap: () async {
                     Navigator.of(context).pop();
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => AboutScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
                   },
                 ),
 

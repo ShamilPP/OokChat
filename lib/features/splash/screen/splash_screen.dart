@@ -20,7 +20,6 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          print(state);
           if (state is AuthAuthenticated) {
             // Navigate to chat screen if the user is authenticated
             Navigator.pushReplacement(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/bloc_providers.dart';
+import 'bloc/theme/theme_cubit.dart';
 import 'core/theme/app_theme.dart';
 import 'di/locator.dart';
 import 'features/splash/screen/splash_screen.dart';
@@ -22,12 +23,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: globalBlocProviders,
-      child: MaterialApp(
-        title: 'Ook Chat',
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
-        home: SplashScreen(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: 'Ook Chat',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            home: SplashScreen(),
+          );
+        },
       ),
     );
   }
