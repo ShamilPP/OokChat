@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/constants/app_info.dart';
 import 'package:ook_chat/features/about/screens/about_screen.dart';
+import 'package:ook_chat/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:ook_chat/features/auth/bloc/auth/auth_state.dart';
 import 'package:ook_chat/features/chat/bloc/chat_bloc.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
 
+import '../../../model/user.dart';
 import '../bloc/chat_event.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -35,6 +38,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    User? user;
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) user = authState.user;
+
     return Drawer(
       elevation: 0,
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -52,14 +59,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
             color: colorScheme.primary.withOpacity(.9),
             child: Row(
               children: [
-                ProfileAvatar(isUser: true, height: 50, width: 50, size: 25),
+                ProfileAvatar(img: user?.profilePhoto, height: 50, width: 50, size: 25),
                 const SizedBox(width: 15),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ook Chat',
+                        user?.name ?? 'Ook Chat',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -67,7 +74,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         ),
                       ),
                       Text(
-                        'Your AI Assistant',
+                       "Ook chat member",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white.withOpacity(0.9),

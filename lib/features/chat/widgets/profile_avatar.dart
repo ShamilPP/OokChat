@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
-  final bool isUser;
+  final String? img;
   final double? height;
   final double? width;
   final double size;
+  final bool isAi;
 
-  const ProfileAvatar({super.key, required this.isUser, this.height, this.width, this.size = 20});
+  const ProfileAvatar({super.key, this.img, this.height, this.width, this.size = 20, this.isAi = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +15,17 @@ class ProfileAvatar extends StatelessWidget {
       height: height,
       width: width,
       child: CircleAvatar(
-        backgroundColor: isUser ? Colors.green[100] : Colors.blue[100],
-        child: Icon(
-          isUser ? Icons.person : Icons.smart_toy_rounded,
-          color: isUser ? Colors.green[700] : Colors.blue[700],
-          size: size,
-        ),
+        backgroundColor: isAi ? Colors.blue[100] : Colors.green[100],
+        child: img != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.network(img!, fit: BoxFit.cover),
+              )
+            : Icon(
+                isAi ? Icons.smart_toy_rounded : Icons.person,
+                color: isAi ? Colors.blue[700] : Colors.green[700],
+                size: size,
+              ),
       ),
     );
   }

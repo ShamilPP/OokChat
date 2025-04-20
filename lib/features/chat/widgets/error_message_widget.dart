@@ -14,7 +14,7 @@ class ErrorMessageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ProfileAvatar(isUser: false),
+          ProfileAvatar(isAi: true),
           SizedBox(width: 8),
           Flexible(
             child: Container(

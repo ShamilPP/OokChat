@@ -44,6 +44,7 @@ class MessageComposer extends StatelessWidget {
                 ),
                 child: TextField(
                   controller: controller,
+                  textInputAction: TextInputAction.done,
                   decoration: const InputDecoration(
                     hintText: 'Type a message...',
                     border: InputBorder.none,

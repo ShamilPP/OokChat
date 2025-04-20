@@ -35,7 +35,7 @@ class _TypingIndicatorState extends State<TypingIndicator> with SingleTickerProv
       padding: const EdgeInsets.only(top: 10),
       child: Row(
         children: [
-          ProfileAvatar(isUser: false),
+          ProfileAvatar(isAi: true),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

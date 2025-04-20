@@ -28,10 +28,15 @@ class UserRepository {
   // Create a new user in Firestore
   Future<User?> createUser(User user) async {
     try {
-      // Add a new user document to the 'users' collection
-      DocumentReference userRef = await _firestore.collection(FirebaseConstants.userCollection).add(user.toJson());
+      var sameUidUsers = await _firestore.collection(FirebaseConstants.userCollection).where('uid', isEqualTo: user.uid).get();
 
-      user.id = userRef.id;
+      if (sameUidUsers.docs.isEmpty) {
+        // Add a new user document to the 'users' collection
+        DocumentReference userRef = await _firestore.collection(FirebaseConstants.userCollection).add(user.toJson());
+        user.id = userRef.id;
+      } else {
+        user.id = sameUidUsers.docs.first.id;
+      }
       return user;
     } catch (e) {
       print("Error creating user: $e");
