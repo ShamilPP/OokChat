@@ -49,17 +49,24 @@ dev_dependencies:
   flutter_launcher_icons: "^0.14.3"
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "assets/icon/icon.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
+  image_path_android: "assets/icon/icon.png"   # REQUIRED fallback for Android
+  image_path_ios: "assets/icon/icon.png" # iOS still uses single image
+
+  min_sdk_android: 21
+  adaptive_icon_foreground: "assets/icon/foreground_margin.png"
+  adaptive_icon_background: "assets/icon/background.png"
+
   web:
     generate: true
     image_path: "assets/icon/icon.png"
+
   windows:
     generate: true
     image_path: "assets/icon/icon.png"
-    icon_size: 48 # min:48, max:256, default: 48
+    icon_size: 48
+
   macos:
     generate: true
     image_path: "assets/icon/icon.png"
