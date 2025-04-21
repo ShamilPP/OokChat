@@ -32,6 +32,8 @@ class ChatScreen extends StatelessWidget {
               messages = [];
             } else if (state is AddMessageSuccess) {
               messages = state.messages;
+            } else if (state is LoadMessageSuccess) {
+              messages = state.messages;
             }
             if (state is AddMessageSuccess || state is AddMessageLoading) {
               _scrollToBottom();

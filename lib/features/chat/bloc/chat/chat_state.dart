@@ -12,6 +12,13 @@ class AddMessageSuccess extends ChatState {
   AddMessageSuccess(this.messages);
 }
 
+
+class LoadMessageSuccess extends ChatState {
+  final List<ChatMessage> messages;
+
+  LoadMessageSuccess(this.messages);
+}
+
 class AddMessageError extends ChatState {
   final String error;
 

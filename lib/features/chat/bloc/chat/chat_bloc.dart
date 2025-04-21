@@ -93,7 +93,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(AddMessageLoading());
       final messages = await firebaseRepository.getMessages(userId: event.userId, chatId: selectedChatId!);
       _messages.addAll(messages);
-      emit(AddMessageSuccess(List.from(_messages)));
+      emit(LoadMessageSuccess(List.from(_messages)));
     } catch (e) {
       emit(AddMessageError("Failed to load message: $e"));
     }
