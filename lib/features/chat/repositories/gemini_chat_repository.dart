@@ -42,10 +42,9 @@ class GeminiChatRepository {
             {
               "role": "user",
               "parts": [
-                {"text": GeminiConstants.geminiRoastTitleInstruction},
+                {"text": GeminiConstants.geminiRoastInstruction(message.text)},
               ]
             },
-            message.toGeminiJson(),
           ],
           "generationConfig": {
             "temperature": GeminiConstants.geminiTemperature,
