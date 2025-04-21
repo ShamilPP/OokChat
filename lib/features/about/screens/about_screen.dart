@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ook_chat/constants/app_info.dart';
 import 'package:ook_chat/features/about/widgets/download_update_widget.dart';
@@ -18,17 +19,18 @@ class AboutScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              showDialog(context: context, builder: (_) => DownloadUpdateWidget());
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                value: 'download',
-                child: Text('Download'),
-              ),
-            ],
-          ),
+          if (!kIsWeb)
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                showDialog(context: context, builder: (_) => DownloadUpdateWidget());
+              },
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem(
+                  value: 'download',
+                  child: Text('Download'),
+                ),
+              ],
+            ),
         ],
       ),
       body: Container(

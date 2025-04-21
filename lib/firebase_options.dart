@@ -16,10 +16,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -58,4 +55,15 @@ class DefaultFirebaseOptions {
     projectId: 'ookchat-6a1ab',
     storageBucket: 'ookchat-6a1ab.firebasestorage.app',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyADhk7ToDRfR7t4UwwBHDoZFYSeFRyNqHc',
+    appId: '1:500918209254:web:1468038c8f6f4c3a8e4927',
+    messagingSenderId: '500918209254',
+    projectId: 'ookchat-6a1ab',
+    authDomain: 'ookchat-6a1ab.firebaseapp.com',
+    storageBucket: 'ookchat-6a1ab.firebasestorage.app',
+    measurementId: 'G-K01BHQXX13',
+  );
+
 }

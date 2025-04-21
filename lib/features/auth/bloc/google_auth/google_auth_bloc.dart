@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ook_chat/constants/firebase_constants.dart';
 
 import '../../../../model/user.dart' as userModel;
 import '../../repo/local_repo.dart';
@@ -14,7 +15,7 @@ class GoogleAuthBloc extends Bloc<GoogleAuthEvent, GoogleAuthState> {
   final UserRepository userRepository;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: FirebaseConstants.googleWebClientId);
 
   GoogleAuthBloc({required this.localRepository, required this.userRepository}) : super(GoogleAuthInitial()) {
     on<GoogleAuthSignInRequested>(_onSignIn);

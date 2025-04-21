@@ -12,7 +12,28 @@
           "package_name": "com.shamil.ook_chat"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "500918209254-bdtoa5oce08rk2vv695kdmui6n86mlsk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shamil.ook_chat",
+            "certificate_hash": "d0dec575e8ba842b2ab2083c4e06ead98d1d09ac"
+          }
+        },
+        {
+          "client_id": "500918209254-irabp6fm2v4j33kpurldljcfh12qulfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shamil.ook_chat",
+            "certificate_hash": "27233e22902627496486f28cbb34b3f8a34d51f1"
+          }
+        },
+        {
+          "client_id": "500918209254-no1t4agfnbdni59lgc55qtf5028um1go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBme3ZVhYQ9dOnSojEEoT19Bld-fHwOWS4"
@@ -20,7 +41,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500918209254-no1t4agfnbdni59lgc55qtf5028um1go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
