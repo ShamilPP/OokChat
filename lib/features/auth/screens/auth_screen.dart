@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
 
                     // Title and Subtitle
                     Text(
-                      "Welcome to Kleanit",
+                      "Welcome to Ook Chat!",
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w800,
