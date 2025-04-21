@@ -21,6 +21,21 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # Build the Flutter web app
+      - name: Build Web
+        run: flutter build web --release
+
+      # Deploy to Firebase Hosting
+      - name: Deploy to Firebase Hosting
+        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+#        run: |
+#          curl -sL https://firebase.tools | bash
+#          firebase login --token ${{ secrets.FIREBASE_TOKEN }}
+#          firebase use --add # Optional: Use this if you want to specify a project
+#          firebase deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
       # Build the release APK
       - name: Build APK
         run: flutter build apk --release

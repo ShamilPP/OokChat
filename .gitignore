@@ -72,3 +72,5 @@ Desktop.ini
 
 # IDE related (e.g., Visual Studio, Eclipse, etc.)
 .vscode/
+
+.firebase/
