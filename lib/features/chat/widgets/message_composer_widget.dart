@@ -25,8 +25,8 @@ class MessageComposer extends StatelessWidget {
 
     return BlocConsumer<ChatBloc, ChatState>(listener: (ctx, state) {
       if (state is AddMessageSuccess) {
-        var lastMessage = state.messages.last;
-        if (!lastMessage.isUser) _speak(lastMessage.text);
+        // var lastMessage = state.messages.last;
+        // if (!lastMessage.isUser) _speak(lastMessage.text);
       }
     }, builder: (context, state) {
       return Container(
@@ -92,9 +92,9 @@ class MessageComposer extends StatelessWidget {
     }
   }
 
-  Future _speak(String text) async {
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setPitch(1.0);
-    await flutterTts.speak(text);
-  }
+  // Future _speak(String text) async {
+  //   await flutterTts.setLanguage("en-US");
+  //   await flutterTts.setPitch(1.0);
+  //   await flutterTts.speak(text);
+  // }
 }
