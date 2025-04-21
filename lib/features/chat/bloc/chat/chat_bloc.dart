@@ -49,7 +49,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _messages.add(aiReplyMessage);
         emit(AddMessageSuccess(List.from(_messages)));
         addMessageToFirebase(message: aiReplyMessage, userId: event.userId);
-        emit(AddMessageSuccess(List.from(_messages)));
       } else {
         emit(AddMessageError(result.message!));
       }
