@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Trigger authentication check when SplashScreen is displayed
-    // LocalRepository().saveUserId("QWN344IuqCtAYlKq2t9p");
+    // LocalRepository().saveUserId("6Ye14v8K3lZFgeXYJY3Z");
     context.read<AuthBloc>().add(AuthCheckRequested());
 
     return Scaffold(
