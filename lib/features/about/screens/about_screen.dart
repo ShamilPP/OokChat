@@ -35,16 +35,6 @@ class AboutScreen extends StatelessWidget {
       ),
       body: Container(
         color: theme.scaffoldBackgroundColor,
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [
-        //       theme.scaffoldBackgroundColor,
-        //       theme.primaryColor.withOpacity(0.05),
-        //     ],
-        //   ),
-        // ),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -187,7 +177,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // "Made with" footer with animation
+                // Developer info
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(begin: 0.0, end: 1.0),
                   duration: const Duration(milliseconds: 1000),
@@ -195,18 +185,52 @@ class AboutScreen extends StatelessWidget {
                   builder: (context, value, child) {
                     return Opacity(
                       opacity: value,
-                      child: Text(
-                        'Made with passion',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.0,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Developed by Shamil',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'shamilpp4115@gmail.com',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey.shade500,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },
                 ),
+                // const SizedBox(height: 16),
+                // "Made with" footer with animation
+                // TweenAnimationBuilder<double>(
+                //   tween: Tween<double>(begin: 0.0, end: 1.0),
+                //   duration: const Duration(milliseconds: 1000),
+                //   curve: Curves.easeInOut,
+                //   builder: (context, value, child) {
+                //     return Opacity(
+                //       opacity: value,
+                //       child: Text(
+                //         'Made with passion',
+                //         style: TextStyle(
+                //           fontSize: 15,
+                //           color: Colors.grey.shade600,
+                //           fontWeight: FontWeight.w500,
+                //           letterSpacing: 1.0,
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

@@ -40,7 +40,14 @@ class GoogleAuthBloc extends Bloc<GoogleAuthEvent, GoogleAuthState> {
       final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       final user = userCredential.user;
       if (user != null) {
-        userModel.User _user = userModel.User(uid: user.uid, profilePhoto: user.photoURL, name: user.displayName ?? "No Name", email: user.email ?? "No Email");
+        userModel.User _user = userModel.User(
+          uid: user.uid,
+          profilePhoto: user.photoURL,
+          name: user.displayName ?? "No Name",
+          email: user.email ?? "No Email",
+          createdTime: DateTime.now(),
+          lastSeenTime: DateTime.now(),
+        );
         var firebaseUser = await userRepository.createUser(_user);
         if (firebaseUser?.id != null) {
           await localRepository.saveUserId(firebaseUser!.id!);

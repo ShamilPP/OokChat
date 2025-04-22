@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:ook_chat/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:ook_chat/features/auth/bloc/user/user_bloc.dart';
 import 'package:ook_chat/features/auth/repo/user_repo.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
 import 'package:ook_chat/features/chat/repositories/firebase_chat_repository.dart';
@@ -25,4 +26,5 @@ void setupLocator() {
   locator.registerFactory<GoogleAuthBloc>(() => GoogleAuthBloc(localRepository: locator<LocalRepository>(), userRepository: locator<UserRepository>()));
   locator.registerFactory<AuthBloc>(() => AuthBloc(localRepository: locator<LocalRepository>(), userRepository: locator<UserRepository>()));
   locator.registerFactory<ChatListBloc>(() => ChatListBloc(chatRepository: locator<FirebaseChatRepository>()));
+  locator.registerFactory<UserBloc>(() => UserBloc(userRepository: locator<UserRepository>()));
 }

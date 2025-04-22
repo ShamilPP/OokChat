@@ -43,4 +43,15 @@ class UserRepository {
       return null; // Return null if an error occurs during creation
     }
   }
+
+  Future<void> updateLastSeen(String userId, DateTime lastSeenTime) async {
+    try {
+      await _firestore.collection(FirebaseConstants.userCollection).doc(userId).update({
+        'lastSeenTime': lastSeenTime,
+      });
+    } catch (e) {
+      print("Error updating user: $e");
+      return null;
+    }
+  }
 }

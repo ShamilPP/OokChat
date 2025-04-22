@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/bloc/theme/theme_cubit.dart';
+import 'package:ook_chat/features/auth/bloc/user/user_bloc.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
 
 import '../di/locator.dart';
@@ -22,5 +23,8 @@ List<BlocProvider> globalBlocProviders = [
   ),
   BlocProvider<AuthBloc>(
     create: (_) => locator<AuthBloc>(),
+  ),
+  BlocProvider<UserBloc>(
+    create: (_) => locator<UserBloc>(),
   ),
 ];

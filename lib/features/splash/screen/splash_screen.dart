@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/constants/app_icons.dart';
+import 'package:ook_chat/features/auth/bloc/user/user_bloc.dart';
+import 'package:ook_chat/features/auth/bloc/user/user_event.dart';
 import 'package:ook_chat/features/auth/screens/auth_screen.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_event.dart';
@@ -25,6 +27,8 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             // Navigate to chat screen if the user is authenticated
+
+            context.read<UserBloc>().add(UpdateLastSeen(userId: state.user.id!));
 
             context.read<ChatListBloc>().add(LoadChatList(userId: state.user.id!));
 
