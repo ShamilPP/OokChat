@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ook_chat/bloc/theme/theme_cubit.dart';
 import 'package:ook_chat/features/auth/bloc/user/user_bloc.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
+import 'package:ook_chat/features/feedback/bloc/feedback_bloc.dart';
 
 import '../di/locator.dart';
 import '../features/auth/bloc/auth/auth_bloc.dart';
@@ -26,5 +27,8 @@ List<BlocProvider> globalBlocProviders = [
   ),
   BlocProvider<UserBloc>(
     create: (_) => locator<UserBloc>(),
+  ),
+  BlocProvider<FeedbackBloc>(
+    create: (_) => locator<FeedbackBloc>(),
   ),
 ];

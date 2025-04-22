@@ -9,6 +9,7 @@ import 'package:ook_chat/features/chat/bloc/chat/chat_state.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_bloc.dart';
 import 'package:ook_chat/features/chat/bloc/chat_list/chat_list_state.dart';
 import 'package:ook_chat/features/chat/widgets/profile_avatar.dart';
+import 'package:ook_chat/features/feedback/widgets/feedback_dialog.dart';
 import 'package:ook_chat/features/settings/screens/settings_screen.dart';
 
 import '../../../model/user.dart';
@@ -190,7 +191,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
           // Bottom Actions
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: Column(
               children: [
                 // Settings
@@ -213,16 +214,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     Navigator.pop(context);
                     Navigator.push(context, MaterialPageRoute(builder: (_) => AboutScreen()));
                   },
+                ), // Feedback
+                _buildMenuTile(
+                  context,
+                  icon: Icons.feedback_outlined,
+                  title: 'Feedback',
+                  onTap: () {
+                    Navigator.pop(context);
+                    showDialog(context: context, builder: (_) => FeedbackDialog());
+                  },
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 16),
+          // const SizedBox(height: 10),
 
           // Version Info
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 15),
             child: Text(
               'v${AppInfo.appVersion}',
               style: TextStyle(
