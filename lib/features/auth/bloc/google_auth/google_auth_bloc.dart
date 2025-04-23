@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ook_chat/constants/firebase_constants.dart';
+import 'package:ook_chat/constants/key/firebase_constants.dart';
 
 import '../../../../model/user.dart' as userModel;
 import '../../repo/local_repo.dart';

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ook_chat/features/feedback/model/feedback.dart';
 
-import '../../../constants/firebase_constants.dart';
+import '../../../constants/key/firebase_constants.dart';
 
 class FeedbackRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

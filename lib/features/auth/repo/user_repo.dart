@@ -1,6 +1,6 @@
 // user_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ook_chat/constants/firebase_constants.dart';
+import 'package:ook_chat/constants/key/firebase_constants.dart';
 
 import '../../../model/user.dart';
 

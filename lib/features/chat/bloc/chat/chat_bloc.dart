@@ -24,6 +24,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onAddMessage(AddMessageEvent event, Emitter<ChatState> emit) async {
+    String? _selectedChatId = selectedChatId;
     try {
       final ChatMessage userMessage = ChatMessage(text: event.message, isUser: true, timestamp: DateTime.now());
       _messages.add(userMessage);
@@ -38,9 +39,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           event.context.read<ChatListBloc>().add(LoadChatList(userId: event.userId));
         }
       }
-
+      if (_selectedChatId == null) _selectedChatId = selectedChatId;
       // Add user message
-      addMessageToFirebase(message: userMessage, userId: event.userId);
+      addMessageToFirebase(message: userMessage, selectedCId: _selectedChatId, userId: event.userId);
       // Simulate AI thinking
       final result = await geminiRepository.geminiResponse(_messages);
       if (result.isSuccess) {
@@ -48,7 +49,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         final ChatMessage aiReplyMessage = ChatMessage(text: result.data ?? '', isUser: false, timestamp: DateTime.now());
         _messages.add(aiReplyMessage);
         emit(AddMessageSuccess(List.from(_messages)));
-        addMessageToFirebase(message: aiReplyMessage, userId: event.userId);
+        addMessageToFirebase(message: aiReplyMessage, userId: event.userId, selectedCId: _selectedChatId);
       } else {
         emit(AddMessageError(result.message!));
       }
@@ -98,7 +99,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  addMessageToFirebase({required ChatMessage message, required String userId}) {
-    firebaseRepository.sendMessage(userId: userId, chatId: selectedChatId!, message: message);
+  addMessageToFirebase({required ChatMessage message, required String userId, required String? selectedCId}) {
+    if (selectedCId == null) return;
+    firebaseRepository.sendMessage(userId: userId, chatId: selectedCId, message: message);
   }
 }

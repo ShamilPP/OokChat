@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:ook_chat/constants/gemini_constants.dart';
+import 'package:ook_chat/constants/key/gemini_constants.dart';
+import 'package:ook_chat/core/gemini/gemini_instruction.dart';
+import 'package:ook_chat/core/gemini/gemini_values.dart';
 import 'package:ook_chat/features/chat/model/chat_message_model.dart';
 
-import '../../../constants/api_endpoints.dart';
+import '../../../constants/gemini_api_endpoints.dart';
 import '../../../model/network/result.dart';
 
 class GeminiChatRepository {
@@ -13,7 +15,7 @@ class GeminiChatRepository {
   Future<Result<String>> geminiResponse(List<ChatMessage> messages) async {
     try {
       final response = await _dio.post(
-        ApiEndpoint.geminiUrl,
+        GeminiApiEndpoint.geminiUrl,
         queryParameters: {'key': GeminiConstants.geminiApiKey},
         data: jsonEncode(_buildGeminiRequestBody(messages)),
       );
@@ -35,22 +37,22 @@ class GeminiChatRepository {
   Future<Result<String>> generateRoastTitle(ChatMessage message) async {
     try {
       final response = await _dio.post(
-        ApiEndpoint.geminiUrl,
+        GeminiApiEndpoint.geminiUrl,
         queryParameters: {'key': GeminiConstants.geminiApiKey},
         data: jsonEncode({
           "contents": [
             {
               "role": "user",
               "parts": [
-                {"text": GeminiConstants.geminiRoastInstruction(message.text)},
+                {"text": GeminiInstruction.geminiRoastTitleInstruction(message.text)},
               ]
             },
           ],
           "generationConfig": {
-            "temperature": GeminiConstants.geminiTemperature,
-            "topP": GeminiConstants.geminiTopP,
-            "presence_penalty": GeminiConstants.geminiPresencePenalty,
-            "frequency_penalty": GeminiConstants.geminiFrequencyPenalty,
+            "temperature": GeminiValues.geminiTemperature,
+            "topP": GeminiValues.geminiTopP,
+            "presence_penalty": GeminiValues.geminiPresencePenalty,
+            "frequency_penalty": GeminiValues.geminiFrequencyPenalty,
           }
         }),
       );
@@ -75,16 +77,16 @@ class GeminiChatRepository {
         {
           "role": "user",
           "parts": [
-            {"text": GeminiConstants.geminiInstruction}
+            {"text": GeminiInstruction.geminiInstruction()}
           ]
         },
         ...messages.map((m) => m.toGeminiJson())
       ],
       "generationConfig": {
-        "temperature": GeminiConstants.geminiTemperature,
-        "topP": GeminiConstants.geminiTopP,
-        "presence_penalty": GeminiConstants.geminiPresencePenalty,
-        "frequency_penalty": GeminiConstants.geminiFrequencyPenalty,
+        "temperature": GeminiValues.geminiTemperature,
+        "topP": GeminiValues.geminiTopP,
+        "presence_penalty": GeminiValues.geminiPresencePenalty,
+        "frequency_penalty": GeminiValues.geminiFrequencyPenalty,
       }
     };
   }

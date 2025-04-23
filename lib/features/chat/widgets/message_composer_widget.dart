@@ -16,6 +16,7 @@ class MessageComposer extends StatelessWidget {
   MessageComposer({super.key, required this.controller});
 
   final FlutterTts flutterTts = FlutterTts();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,7 @@ class MessageComposer extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: controller,
+                    focusNode: _focusNode,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',
@@ -89,12 +91,13 @@ class MessageComposer extends StatelessWidget {
     if (message.isNotEmpty && bloc.state is! AddMessageLoading && bloc.state is! AddMessageError) {
       bloc.add(AddMessageEvent(context: context, message: message, userId: id ?? ''));
       controller.clear();
+      _focusNode.requestFocus();
     }
   }
 
-  // Future _speak(String text) async {
-  //   await flutterTts.setLanguage("en-US");
-  //   await flutterTts.setPitch(1.0);
-  //   await flutterTts.speak(text);
-  // }
+// Future _speak(String text) async {
+//   await flutterTts.setLanguage("en-US");
+//   await flutterTts.setPitch(1.0);
+//   await flutterTts.speak(text);
+// }
 }
